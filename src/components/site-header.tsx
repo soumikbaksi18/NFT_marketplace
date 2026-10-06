@@ -21,6 +21,8 @@ export function SiteHeader({
         <a href="#collection">Collection</a>
         <a href="#about">About</a>
         <Link href="/marketplace">Marketplace</Link>
+        <Link href="/collection">My NFTs</Link>
+        <Link href="/orders">Orders</Link>
       </nav>
 
       <Link href={ctaHref} className="neon-button header-cta">

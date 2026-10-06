@@ -1,12 +1,14 @@
 import Link from "next/link";
+import { BuyButton } from "@/components/buy-button";
 import type { PokemonNft } from "@/data/pokemon-nfts";
 
 type PokemonCardProps = {
   nft: PokemonNft;
   compact?: boolean;
+  owned?: boolean;
 };
 
-export function PokemonCard({ nft, compact = false }: PokemonCardProps) {
+export function PokemonCard({ nft, compact = false, owned = false }: PokemonCardProps) {
   return (
     <article className={`pokemon-card ${compact ? "compact" : ""}`}>
       <div className="pokemon-art-shell" style={{ "--card-accent": nft.accent } as React.CSSProperties}>
@@ -44,9 +46,13 @@ export function PokemonCard({ nft, compact = false }: PokemonCardProps) {
             <span>Price</span>
             <strong>{nft.priceXlm} XLM</strong>
           </div>
-          <Link href="/marketplace" className="card-action" aria-label={`Buy ${nft.name}`}>
-            View NFT
-          </Link>
+          {owned ? (
+            <Link href="/collection" className="owned-pill">
+              Owned
+            </Link>
+          ) : (
+            <BuyButton nftId={nft.id} label={`Buy ${nft.name}`} />
+          )}
         </div>
       </div>
     </article>

@@ -1,12 +1,13 @@
 "use client";
 
-import { useDeferredValue, useState } from "react";
+import { useDeferredValue, useEffect, useState } from "react";
 import { PokemonCard } from "@/components/pokemon-card";
 import {
   pokemonNfts,
   pokemonTypes,
   type PokemonTypeFilter,
 } from "@/data/pokemon-nfts";
+import { ownedNftIds } from "@/lib/orders";
 
 type SortMode = "featured" | "price-low" | "price-high" | "rarity";
 
@@ -14,7 +15,12 @@ export function MarketplaceBrowser() {
   const [query, setQuery] = useState("");
   const [type, setType] = useState<PokemonTypeFilter>("All");
   const [sortMode, setSortMode] = useState<SortMode>("featured");
+  const [ownedIds, setOwnedIds] = useState<string[]>([]);
   const deferredQuery = useDeferredValue(query);
+
+  useEffect(() => {
+    setOwnedIds(ownedNftIds());
+  }, []);
 
   const normalizedQuery = deferredQuery.trim().toLowerCase();
   const filtered = pokemonNfts
@@ -42,8 +48,8 @@ export function MarketplaceBrowser() {
           <p className="eyebrow">Pokemon marketplace on Stellar</p>
           <h1>Explore collectible Pokemon NFTs priced only in XLM.</h1>
           <p className="section-copy">
-            Every card below is priced between 50 and 100 XLM and styled like a live collectible
-            drop. Browse by type, search by Pokemon, and build your own dream lineup.
+            Every card is priced between 50 and 100 XLM. Buy opens Hypertron hosted checkout on
+            Stellar testnet, then returns you to Orders once the payment is recorded.
           </p>
         </div>
         <div className="hero-kpis">
@@ -104,7 +110,7 @@ export function MarketplaceBrowser() {
 
       <div className="market-grid">
         {filtered.map((nft) => (
-          <PokemonCard key={nft.id} nft={nft} />
+          <PokemonCard key={nft.id} nft={nft} owned={ownedIds.includes(nft.id)} />
         ))}
       </div>
     </section>

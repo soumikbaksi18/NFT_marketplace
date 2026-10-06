@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BuyButton } from "@/components/buy-button";
 import { PokemonCard } from "@/components/pokemon-card";
 import { SiteHeader } from "@/components/site-header";
 import { pokemonNfts } from "@/data/pokemon-nfts";
@@ -69,6 +70,7 @@ export default function HomePage() {
                     <strong>{featured.priceXlm} XLM</strong>
                   </div>
                 </div>
+                <BuyButton nftId={featured.id} className="neon-button feature-buy" label="Buy with Hypertron" />
               </div>
             </div>
 
